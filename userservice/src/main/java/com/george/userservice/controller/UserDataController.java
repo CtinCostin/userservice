@@ -2,16 +2,16 @@ package com.george.userservice.controller;
 
 import com.george.userservice.model.UserData;
 import com.george.userservice.repository.UserDataRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @RestController
 @RequestMapping("/users")
 public class UserDataController {
@@ -34,7 +34,7 @@ public class UserDataController {
     }
 
     @PostMapping("/")
-    public UserData createData(@Valid @RequestBody UserData userData) {
+    public UserData createData(@RequestBody UserData userData) {
 
         return userDataRepository.save(userData);
     }

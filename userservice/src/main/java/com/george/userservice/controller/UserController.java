@@ -3,8 +3,12 @@ package com.george.userservice.controller;
 import com.george.userservice.filter.CustomAuthenticationFilter;
 import com.george.userservice.model.AuthenticationRequest;
 import com.george.userservice.model.AuthenticationResponse;
+import com.george.userservice.model.User;
 import com.george.userservice.model.UserDTO;
 import com.george.userservice.service.UserServiceImpl;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -14,6 +18,11 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
+//The POST API gets username and password in the body-
+//Using Spring Authentication Manager we authenticate the username and password.
+//If the credentials are valid, a JWT token is created using the JWTTokenUtil and provided to the client.
 
 @RestController
 @CrossOrigin
@@ -25,6 +34,8 @@ public class UserController {
     private  CustomAuthenticationFilter customAuthenticationFilter;
     @Autowired
     private  AuthenticationManager authenticationManager;
+    @Autowired
+    private SessionFactory sessionFactory;
 
 
     @GetMapping("/welcome")
@@ -59,5 +70,24 @@ public class UserController {
             throw new Exception("INVALID_CREDENTIALS", e);
         }
     }
+
+    public List<User> getUsers() {
+        Session session = sessionFactory.openSession();
+        List<User> users = session.createQuery("FROM User", User.class).getResultList();
+        session.close();
+        return users;
+    }
+
+    public User getUserById(Long id) {
+        User user = null;
+        Session session = sessionFactory.openSession();
+        String hql  = "FROM User U  WHERE U.id = :user_id";
+        Query query = session.createQuery(hql);
+        query.setParameter("user_id", id);
+        user = (User) query.getResultList();
+        return user;
+    }
+
+
 }
 

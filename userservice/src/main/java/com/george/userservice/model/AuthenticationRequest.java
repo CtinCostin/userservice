@@ -3,9 +3,11 @@ package com.george.userservice.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 import java.io.Serializable;
 
+//This class is required for storing the username and password we recieve from the client
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

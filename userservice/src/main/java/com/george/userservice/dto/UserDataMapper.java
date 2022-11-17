@@ -4,7 +4,6 @@ import com.george.userservice.model.UserData;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
-import java.time.LocalDate;
 
 @Component
 public class UserDataMapper {
